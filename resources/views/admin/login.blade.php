@@ -32,18 +32,32 @@
               </div>
               <h4>Hello! let's get started</h4>
               <h6 class="font-weight-light">Sign in to continue.</h6>
-              @if (Session::has('error_message'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Error: </strong> {{ Session::get('error_message') }}
+                @if (Session::has('error_message'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error: </strong> {{ Session::get('error_message') }}
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">&times;</span>
                     </button>
-                </div>
-              @endif
+                    </div>
+                @endif
               <form class="pt-3" action="adminLogin" method="POST">
                 @csrf
                 <div class="form-group">
-                  <input type="email" name="email" id="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username" required>
+                  <input type="text" name="email" id="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Username" required>
                 </div>
                 <div class="form-group">
                   <input type="password" name="password" id="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password" required>
