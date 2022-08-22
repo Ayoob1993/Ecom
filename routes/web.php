@@ -39,6 +39,9 @@ Route::controller(AdminController::class)->group(function(){
         //Route Check Admin Password
         Route::post('check_admin_password','checkAdminPassword');
 
+        //Route Admin Detais
+        Route::match(['get','post'],'update_admin_details','updateAdminDetails');
+
         //RouteAdmin Login
         Route::get('adminLogout','logout');
     });
