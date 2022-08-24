@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -104,6 +105,76 @@ class AdminController extends Controller
             return redirect()->back()->with('Success_message','Admin details updated successfully');
         }
         return view ('admin.settings.update_admin_details');
+    }
+
+    public function updateVendorDetails($slug, Request $request)
+    {
+        if($slug=="personal")
+        {
+            if($request->isMethod('POST'))
+            {
+                $data = $request->all();
+                // echo "<pre>"; print_r($data);die;
+
+                $rules = [
+                    'vendor_name'=>'required|regex:/^[\pL\s\-]+$/u',
+                    'vendor_city'=>'required|regex:/^[\pL\s\-]+$/u',
+                    'vendor_mobile'=>'required|numeric',
+                ];
+
+                $customMessages = [
+                    'vendor_name.required' => 'Name is required',
+                    'vendor_city.required' => 'Name is required',
+                    'vendor_name.regex' => 'Valid Name is required',
+                    'vendor_city.regex' => 'Valid Name is required',
+                    'vendor_mobile.required' => 'Mobile is required',
+                    'vendor_mobile.numeric' => 'Valid Mobile is required',
+                ];
+
+                $this->validate($request,$rules, $customMessages);
+
+                //Upload Admin Image
+                if($request->hasFile('vendor_image'))
+                {
+                    $image_tmpt = $request->file('vendor_image');
+                    if($image_tmpt->isValid())
+                    {
+                        //Get image extension
+                        $extension = $image_tmpt->getClientOriginalExtension();
+                        //Generate New Image Name
+                        $imageName = rand(111,99999).'.'.$extension;
+                        $imagePath = 'admin/images/photos/'.$imageName;
+                        //Upload the Image
+                        Image::make($image_tmpt)->save($imagePath);
+                    }
+
+                }
+                else if(!empty($data['current_vendor_image']))
+                {
+                    $imageName = $data['current_vendor_image'];
+                }
+                else
+                {
+                    $imageName = "";
+                }
+
+                //Update in Admin Table
+                Admin::where('id',Auth::guard('admin')->user()->id)->update(['name'=>$data['vendor_name'],'mobile'=>$data['vendor_mobile'],'image'=>$imageName]);
+                //Update in Vendor Table
+                Vendor::where('id',Auth::guard('admin')->user()->vendor_id)->update(['name'=>$data['vendor_name'],'mobile'=>$data['vendor_mobile'],'address'=>$data['vendor_address'],'city'=>$data['vendor_city'],'state'=>$data['vendor_state'],'country'=>$data['vendor_country'],'pincode'=>$data['vendor_pincode']]);
+                return redirect()->back()->with('Success_message','Vendor details updated successfully');
+            }
+            $vendorDetails = Vendor::where('id',Auth::guard('admin')->user()->vendor_id)->first()->toArray();
+        }
+        else if($slug=="business")
+        {
+
+        }
+        else if($slug=="bank")
+        {
+
+        }
+        return view('admin.settings.update_vendor_details')->with(compact('slug','vendorDetails'));
     }
 
     public function login(Request $request)

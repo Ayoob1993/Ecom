@@ -17,19 +17,19 @@ class AdminSeeder extends Seeder
     {
 
         $adminRecords = [
-            [
-                'id'=>1,
-                'name'=>'Super Admin',
-                'type'=>'superadmin',
-                'vendor_id'=>0,
-                'mobile'=>'0777076914',
-                'email'=>'admin@gmail.com',
-                'password'=>'$2a$12$v0afSPwzim4u627bVCmgOO.vMlXL8u9xArZG9JMRPir..pXb526uq',
-                'image'=>'',
-                'status'=>1
-            ],
+                [
+                    'id'=>2,
+                    'name'=>'Zawahir',
+                    'type'=>'vendor',
+                    'vendor_id'=>1,
+                    'mobile'=>'0771241006',
+                    'email'=>'zawahir@gmail.com',
+                    'password'=>'$2a$12$/jSR0Vug7PgHaVAhcte1luTx.hcAzu2.AXiBNiC9iZeSEYfXSxmlS',
+                    'image'=>'',
+                    'status'=>0,
+                    'status'=>1,
+                ]
         ];
-
         Admin::insert($adminRecords);
 
     }
