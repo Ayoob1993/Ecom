@@ -42,6 +42,9 @@ Route::controller(AdminController::class)->group(function(){
         //Route Admin Detais
         Route::match(['get','post'],'update_admin_details','updateAdminDetails');
 
+        //Route Update Admin Details
+        Route::match(['get','post'],'update_vendor_details/{slug}','updateVendorDetails');
+
         //RouteAdmin Login
         Route::get('adminLogout','logout');
     });

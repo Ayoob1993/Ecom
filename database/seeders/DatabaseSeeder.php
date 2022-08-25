@@ -22,5 +22,8 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call(AdminSeeder::class);
+        $this->call(VendorSeeder::class);
+        $this->call(VendorsBusinessDetailSeeder::class);
+        $this->call(VendorBankDetailsSeeder::class);
     }
 }
