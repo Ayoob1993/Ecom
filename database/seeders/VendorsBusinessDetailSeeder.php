@@ -30,6 +30,7 @@ class VendorsBusinessDetailSeeder extends Seeder
             'address_proof'=>'NIC',
             'address_proof_image'=>'test.jpg',
             'business_license_number'=>'125455555',
+            'gst_number'=>'125455555',
             'pan_number'=>'44554555555',
         ];
         VendorsBusinessDetail::insert($vendorRecords);
